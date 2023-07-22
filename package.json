@@ -1,0 +1,23 @@
+{
+  "name": "vartur.com.fastify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.0.0",
+    "fastify": "^4.20.0",
+    "fastify-cli": "^5.7.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "prisma": "^5.0.0"
+  }
+}
