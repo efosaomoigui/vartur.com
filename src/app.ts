@@ -10,7 +10,7 @@ app.get("/", async () => {
 
 const start = async () => {
   try {
-    await app.listen(PORT);
+    await app.listen(PORT, "0.0.0.0");
     console.log("Server started on port 3000");
   } catch (err) {
     console.error(err);
