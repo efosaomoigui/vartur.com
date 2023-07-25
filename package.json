@@ -27,6 +27,8 @@
     "zod-to-json-schema": "^3.21.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
     "@fastify/swagger": "^8.8.0",
     "@fastify/swagger-ui": "^1.9.3",
     "@types/fastify-jwt": "^0.8.1",
