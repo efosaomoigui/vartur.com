@@ -11,6 +11,54 @@ const PORT = 3000;
 
 export const app = fastify();
 
+app.register(require("@fastify/swagger"), {});
+app.register(require("@fastify/swagger-ui"), {
+  routePrefix: "/vartur/docs",
+  info: {
+    title: "Test swagger",
+    description: "Testing the Fastify swagger API",
+    version: "0.1.0",
+  },
+  uiConfig: {
+    docExpansion: "full",
+    deepLinking: false,
+  },
+  uiHooks: {
+    onRequest: function (
+      request: FastifyRequest,
+      reply: FastifyReply,
+      next: () => void
+    ) {
+      next();
+    },
+    preHandler: function (
+      request: FastifyRequest,
+      reply: FastifyReply,
+      next: () => void
+    ) {
+      next();
+    },
+  },
+  staticCSP: true,
+  transformStaticCSP: (header: any) => header,
+  transformSpecification: (
+    swaggerObject: {
+      info: { title: string; description: string; version: string };
+    },
+    request: FastifyRequest,
+    reply: FastifyReply
+  ) => {
+    let version = "1.0.0";
+    swaggerObject.info = {
+      title: "Vartur.com",
+      description: `Vartur.com API documentation for version ${version}`,
+      version: `${version}`,
+    };
+    return swaggerObject;
+  },
+  transformSpecificationClone: true,
+});
+
 app.get("/healthCheck", async () => {
   return { message: "Hello, Vartur.com" };
 });

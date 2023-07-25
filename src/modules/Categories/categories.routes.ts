@@ -2,6 +2,8 @@ import { FastifyInstance } from "fastify";
 import {
   createCategoryHandler,
   getCategoryHandler,
+  getCategoryTreeHandler,
+  getCategoriesWithProductCountHandler,
 } from "./categories.controller";
 import { $ref } from "./categories.schema";
 
@@ -24,12 +26,20 @@ async function categoryRoutes(server: FastifyInstance) {
     {
       schema: {
         response: {
-          200: $ref("createCategorySchema"),
+          200: $ref("categoriesResponseSchema"),
         },
       },
     },
 
     getCategoryHandler
+  );
+
+  server.get("/categoryTree", {}, getCategoryTreeHandler);
+
+  server.get(
+    "/categoryWithProductCount",
+    {},
+    getCategoriesWithProductCountHandler
   );
 }
 

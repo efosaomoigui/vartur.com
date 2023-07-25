@@ -24,7 +24,7 @@ async function productRoutes(server: FastifyInstance) {
     {
       schema: {
         response: {
-          200: $ref("createProductSchema"),
+          200: $ref("productsResponseSchema"),
         },
       },
     },

@@ -1,6 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { createCategoryInput } from "./categories.schema";
-import { createCategory, getCategories } from "./categories.service";
+import getCategoryTree, {
+  createCategory,
+  getCategories,
+  getCategoriesWithProductCount,
+} from "./categories.service";
 
 export async function createCategoryHandler(
   request: FastifyRequest<{ Body: createCategoryInput }>,
@@ -15,6 +19,15 @@ export async function createCategoryHandler(
 
 export async function getCategoryHandler() {
   const categories = await getCategories();
+  return categories;
+}
 
+export async function getCategoryTreeHandler() {
+  const categories = await getCategoryTree();
+  return categories;
+}
+
+export async function getCategoriesWithProductCountHandler() {
+  const categories = await getCategoriesWithProductCount();
   return categories;
 }

@@ -22,7 +22,13 @@ const CategoryResponseSchema = z.object({
   ...cateogryGenerated,
 });
 
-const categoriesResponseSchema = z.array(CategoryResponseSchema);
+export const categoriesResponseSchema = z.array(CategoryResponseSchema);
+
+const categoriesWithChildrenResponseSchema = z.object({
+  ...categoryInput,
+  children: categoriesResponseSchema,
+  ...cateogryGenerated,
+});
 
 export type createCategoryInput = z.infer<typeof createCategorySchema>;
 
@@ -31,6 +37,7 @@ export const { schemas: cateogrySchemas, $ref } = buildJsonSchemas(
     createCategorySchema,
     CategoryResponseSchema,
     categoriesResponseSchema,
+    categoriesWithChildrenResponseSchema,
   },
   { $id: "categorySchemas" }
 );
