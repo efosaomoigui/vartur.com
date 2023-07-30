@@ -1,5 +1,5 @@
 import fastify, { FastifyRequest, FastifyReply } from "fastify";
-import jwt from "jsonwebtoken";
+import cors from "@fastify/cors";
 import userRoute from "./modules/users/users.routes";
 import { userSchemas } from "./modules/users/users.schema";
 import productRoutes from "./modules/products/products.routes";
@@ -10,6 +10,13 @@ import categoriesRoutes from "./modules/Categories/categories.routes";
 const PORT = 3000;
 
 export const app = fastify();
+app.register(cors, {
+  origin: true,
+});
+
+app.register(require("fastify-multipart"), {
+  addToBody: true,
+});
 
 app.register(require("@fastify/swagger"), {});
 app.register(require("@fastify/swagger-ui"), {

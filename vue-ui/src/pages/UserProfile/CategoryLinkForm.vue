@@ -1,6 +1,10 @@
 <template>
   <card>
-    <form>
+    <!-- <pre>
+      {{ JSON.stringify(category, null, 2) }}
+    </pre> -->
+
+    <form @submit.prevent="addCategory">
       <div class="row">
         <div class="col-md-6">
           <base-input
@@ -12,14 +16,11 @@
           >
           </base-input>
         </div>
+
         <div class="col-md-6">
           <div class="form-group">
             <label for="parentCategory">Parent Category:</label>
-            <select
-              class="form-control"
-              v-model="selectedParentCategory"
-              required
-            >
+            <select class="form-control" v-model="category.parent_id" required>
               <option
                 v-for="category in categories"
                 :key="category.id"
@@ -30,6 +31,7 @@
             </select>
           </div>
         </div>
+
         <div class="col-md-12">
           <div class="form-group">
             <label for="categoryImage">Picture: &nbsp;</label>
@@ -39,14 +41,11 @@
       </div>
 
       <div class="text-center">
-        <button
-          type="submit"
-          class="btn btn-info btn-fill float-right"
-          @click.prevent="updateProfile"
-        >
-          Add Child Category
+        <button type="submit" class="btn btn-info btn-fill float-right">
+          Add Parent Category
         </button>
       </div>
+
       <div class="clearfix"></div>
     </form>
   </card>
@@ -61,24 +60,22 @@ export default {
   data() {
     return {
       category: {
-        name: "Category",
-        picture: "picture",
+        name: "",
+        picture: "",
+        parent_id: "",
       },
     };
   },
   computed: {
     categories() {
-      // Assuming you have fetched the categories data from the API and stored it in 'this.categories'
-      // Replace this with your actual categories data fetched from the backend API
       return [
         { id: 1, name: "Category 1" },
         { id: 2, name: "Category 2" },
-        // Add more categories here...
       ];
     },
   },
   methods: {
-    updateProfile() {
+    handleFileUpload() {
       alert("Your data: " + JSON.stringify(this.user));
     },
   },

@@ -1,6 +1,17 @@
 <template>
   <card>
-    <form>
+    <!-- <pre>
+      {{ JSON.stringify(category, null, 2) }}
+    </pre> -->
+    <form @submit.prevent="addCategory" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-12">
+          <div v-bind:class="category.info">
+            {{ category.message }}
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-md-12">
           <base-input
@@ -14,18 +25,14 @@
         </div>
         <div class="col-md-12">
           <div class="form-group">
-            <label for="categoryImage">Picture: &nbsp;</label>
+            <label for="picture">Picture: &nbsp;</label>
             <input type="file" @change="handleFileUpload" />
           </div>
         </div>
       </div>
 
       <div class="text-center">
-        <button
-          type="submit"
-          class="btn btn-info btn-fill float-right"
-          @click.prevent="updateProfile"
-        >
+        <button type="submit" class="btn btn-info btn-fill float-right">
           Add Parent Category
         </button>
       </div>
@@ -34,6 +41,7 @@
   </card>
 </template>
 <script>
+import axios from "axios";
 import Card from "src/components/Cards/Card.vue";
 
 export default {
@@ -43,36 +51,45 @@ export default {
   data() {
     return {
       category: {
-        name: "Category",
-        picture: "picture",
+        name: "",
+        parent_id: 0,
+        picture: "",
+        file: "",
       },
+      selectedFile: null,
+      message: "",
+      info: "",
     };
   },
   methods: {
-    updateProfile() {
-      alert("Your data: " + JSON.stringify(this.user));
+    handleFileUpload(event) {
+      this.selectedFile = event.target.files[0];
+      console.log("file", this.selectedFile);
     },
     async addCategory() {
+      const fd = new FormData();
+      this.category.file = this.selectedFile;
+
+      // Append properties from categoryData to the FormData
+      fd.append("name", this.category.name);
+      fd.append("parent_id", this.category.parent_id);
+      fd.append("picture", "rrrrr");
+      fd.append("file", this.selectedFile);
+      console.log("Result fd: ", fd);
+
       try {
-        // Prepare the category data
-        const categoryData = {
-          name: this.name,
-          image: this.picture,
-        };
+        const response = await axios.post(
+          "http://localhost:3000/api/categories/",
+          fd
+        );
 
-        // Add Parent Category
-        const response = await axios.post("/api/categories", categoryData);
-
-        console.log("Category added successfully:", response.data);
-        this.name = "";
-        this.picture = null;
+        // console.log("==>> ", response.data);
       } catch (error) {
-        console.error("Error adding category:", error);
+        console.log("Result: ", error);
       }
-    },
-    handleFileUpload(event) {
-      const file = event.target.files[0];
-      this.$emit("file-selected", file); // Emit an event to the parent component with the selected file
+
+      this.category.info = "alert alert-info text-dark";
+      this.category.message = "Category Created Successfully!";
     },
   },
 };

@@ -1,11 +1,17 @@
 import { any } from "zod";
+import path from "path";
+import sharp from "sharp";
 import prisma from "../../utils/prisma";
 import { createCategoryInput } from "./categories.schema";
 
 export async function createCategory(input: createCategoryInput) {
-  return prisma.category.create({
-    data: input,
-  });
+  try {
+    return prisma.category.create({
+      data: input,
+    });
+  } catch (error) {
+    throw new Error("Error creating category");
+  }
 }
 
 export function getCategories() {

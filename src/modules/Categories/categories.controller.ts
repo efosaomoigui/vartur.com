@@ -6,15 +6,38 @@ import getCategoryTree, {
   getCategoriesWithProductCount,
 } from "./categories.service";
 
+import fs from "fs";
+import sharp from "sharp";
+
 export async function createCategoryHandler(
   request: FastifyRequest<{ Body: createCategoryInput }>,
   reply: FastifyReply
 ) {
-  const category = await createCategory({
-    ...request.body,
-  });
+  process.env.ROOT_PATH = __dirname;
+  const { name, picture, parent_id } = request.body;
+  const pictureUrl = `../../uploads/${request.body.file[0].filename}`;
+  const pictureName = request.body.file[0].filename;
+  const input = {
+    name,
+    picture: pictureName,
+    parent_id,
+  };
 
-  return category;
+  try {
+    console.log("LOC ", request.body.file);
+    const file = request.body.file[0];
+
+    if (file)
+      await sharp(file.data)
+        .resize(3200, 3200) // Resize the image to 3200x3200 pixels
+        .toFile(`.${pictureUrl}`);
+
+    const category = await createCategory(input);
+
+    return category;
+  } catch (error) {
+    return error;
+  }
 }
 
 export async function getCategoryHandler() {

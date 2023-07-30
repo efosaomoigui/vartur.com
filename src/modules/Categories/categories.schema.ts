@@ -2,10 +2,10 @@ import { z } from "zod";
 import { buildJsonSchemas } from "fastify-zod";
 
 const categoryInput = {
-  id: z.number(),
   name: z.string(),
   picture: z.string(),
   parent_id: z.number(),
+  file: z.any(),
 };
 
 const cateogryGenerated = {

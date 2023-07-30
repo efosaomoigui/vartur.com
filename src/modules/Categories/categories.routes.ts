@@ -16,6 +16,7 @@ async function categoryRoutes(server: FastifyInstance) {
         response: {
           201: $ref("createCategorySchema"),
         },
+        consumes: ["multipart/form-data"],
       },
     },
     createCategoryHandler
