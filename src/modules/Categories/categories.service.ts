@@ -14,17 +14,9 @@ export async function createCategory(input: createCategoryInput) {
   }
 }
 
-export function getCategories() {
-  return prisma.category.findMany({
-    select: {
-      id: true,
-      name: true,
-      picture: true,
-      parent_id: true,
-      created_at: true,
-      updated_at: true,
-    },
-  });
+export async function getCategories() {
+  const allCategories = await prisma.category.findMany();
+  return allCategories;
 }
 
 export async function getCategoriesWithProductCount() {
@@ -75,3 +67,25 @@ const getCategoryTree = async () => {
 };
 
 export default getCategoryTree;
+
+export async function deleteCategory(categoryId: number) {
+  try {
+    // Check if the category exists in the database
+    const category = await prisma.category.findUnique({
+      where: { id: categoryId },
+    });
+    if (!category) {
+      return null;
+    }
+
+    // Delete the category and any associated products (if needed)
+    await prisma.category.delete({ where: { id: categoryId } });
+
+    // You may also need to delete associated products if required
+    await prisma.product.deleteMany({ where: { category_id: categoryId } });
+
+    return category;
+  } catch (error) {
+    throw new Error("Error deleting category");
+  }
+}

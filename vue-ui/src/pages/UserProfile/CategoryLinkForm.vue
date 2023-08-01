@@ -1,10 +1,6 @@
 <template>
   <card>
-    <!-- <pre>
-      {{ JSON.stringify(category, null, 2) }}
-    </pre> -->
-
-    <form @submit.prevent="addCategory">
+    <form @submit.prevent="addCategoryLink" enctype="multipart/form-data">
       <div class="row">
         <div class="col-md-6">
           <base-input
@@ -22,7 +18,7 @@
             <label for="parentCategory">Parent Category:</label>
             <select class="form-control" v-model="category.parent_id" required>
               <option
-                v-for="category in categories"
+                v-for="category in dataFromParent"
                 :key="category.id"
                 :value="category.id"
               >
@@ -52,6 +48,7 @@
 </template>
 <script>
 import Card from "src/components/Cards/Card.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -66,17 +63,39 @@ export default {
       },
     };
   },
-  computed: {
-    categories() {
-      return [
-        { id: 1, name: "Category 1" },
-        { id: 2, name: "Category 2" },
-      ];
+  props: {
+    dataFromParent: {
+      required: true,
     },
   },
   methods: {
-    handleFileUpload() {
-      alert("Your data: " + JSON.stringify(this.user));
+    handleFileUpload(event) {
+      this.selectedFile = event.target.files[0];
+      console.log("file", this.selectedFile);
+    },
+    async addCategoryLink() {
+      const fd = new FormData();
+      this.category.file = this.selectedFile;
+
+      // Append properties from categoryData to the FormData
+      fd.append("name", this.category.name);
+      fd.append("parent_id", Number(this.category.parent_id));
+      fd.append("picture", "rrrrr");
+      fd.append("file", this.selectedFile);
+      console.log("Result fd: ", fd);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/categories/",
+          fd
+        );
+
+        this.$emit("category-created");
+        this.category.info = "alert alert-info text-dark";
+        this.category.message = "Category Created Successfully!";
+      } catch (error) {
+        console.log("Result: ", error);
+      }
     },
   },
 };

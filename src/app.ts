@@ -82,6 +82,7 @@ const start = async () => {
   app.register(userRoute, { prefix: "api/users" });
   app.register(productRoutes, { prefix: "api/products" });
   app.register(categoriesRoutes, { prefix: "api/categories" });
+  
 
   try {
     await app.listen(PORT, "0.0.0.0");

@@ -59,12 +59,25 @@ export default {
       selectedFile: null,
       message: "",
       info: "",
+      tableData: [],
+      reloadKey: 0,
     };
   },
   methods: {
     handleFileUpload(event) {
       this.selectedFile = event.target.files[0];
       console.log("file", this.selectedFile);
+    },
+
+    async fetchCategories() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/categories"
+        );
+        this.tableData = response.data;
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
     },
     async addCategory() {
       const fd = new FormData();
@@ -83,13 +96,12 @@ export default {
           fd
         );
 
-        // console.log("==>> ", response.data);
+        this.$emit("category-created");
+        this.category.info = "alert alert-info text-dark";
+        this.category.message = "Category Created Successfully!";
       } catch (error) {
         console.log("Result: ", error);
       }
-
-      this.category.info = "alert alert-info text-dark";
-      this.category.message = "Category Created Successfully!";
     },
   },
 };

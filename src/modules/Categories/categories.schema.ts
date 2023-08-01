@@ -9,6 +9,7 @@ const categoryInput = {
 };
 
 const cateogryGenerated = {
+  id: z.number(),
   created_at: z.date(),
   updated_at: z.date(),
 };

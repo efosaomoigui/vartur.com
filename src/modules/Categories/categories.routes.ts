@@ -4,6 +4,7 @@ import {
   getCategoryHandler,
   getCategoryTreeHandler,
   getCategoriesWithProductCountHandler,
+  deleteCategoryHandler,
 } from "./categories.controller";
 import { $ref } from "./categories.schema";
 
@@ -36,6 +37,7 @@ async function categoryRoutes(server: FastifyInstance) {
   );
 
   server.get("/categoryTree", {}, getCategoryTreeHandler);
+  server.delete("/:categoryId", {}, deleteCategoryHandler);
 
   server.get(
     "/categoryWithProductCount",

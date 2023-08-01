@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { createCategoryInput } from "./categories.schema";
 import getCategoryTree, {
   createCategory,
+  deleteCategory,
   getCategories,
   getCategoriesWithProductCount,
 } from "./categories.service";
@@ -53,4 +54,25 @@ export async function getCategoryTreeHandler() {
 export async function getCategoriesWithProductCountHandler() {
   const categories = await getCategoriesWithProductCount();
   return categories;
+}
+
+// Add the route for deleting a category
+export async function deleteCategoryHandler(
+  request: FastifyRequest<{ Params: { categoryId: string } }>,
+  reply: FastifyReply
+) {
+  const categoryId = parseInt(request.params.categoryId, 10);
+  console.log("DEl ", categoryId);
+
+  try {
+    const category = await deleteCategory(categoryId);
+
+    if (!category) {
+      return reply.code(404).send({ message: "Category not found" });
+    }
+
+    return { message: "Category deleted successfully" };
+  } catch (error) {
+    return reply.code(500).send({ message: "Error deleting category" });
+  }
 }
