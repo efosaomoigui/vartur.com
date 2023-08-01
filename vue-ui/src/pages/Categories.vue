@@ -27,7 +27,10 @@
               <p class="card-category">Create New Category Links</p>
             </template>
             <div class="col-md-12">
-              <category-link-form :dataFromParent="table1.data">
+              <category-link-form
+                :dataFromParent="table1.data"
+                @category-created="handleCategoryCreated"
+              >
               </category-link-form>
             </div>
           </card>
@@ -69,12 +72,6 @@
                 </tr>
               </tbody>
             </table>
-            <!-- <l-table
-              class="table-hover table-striped"
-              :columns="table1.columns"
-              :data="table1.data"
-            >
-            </l-table> -->
           </card>
         </div>
       </div>
@@ -82,7 +79,6 @@
   </div>
 </template>
 <script>
-import LTable from "src/components/Table.vue";
 import CategoryForm from "./UserProfile/CategoryForm.vue";
 import CategoryLinkForm from "./UserProfile/CategoryLinkForm.vue";
 import Card from "src/components/Cards/Card.vue";
@@ -92,7 +88,6 @@ import "sweetalert2/dist/sweetalert2.css";
 
 export default {
   components: {
-    LTable,
     Card,
     CategoryForm,
     CategoryLinkForm,
@@ -125,9 +120,6 @@ export default {
       } catch (error) {
         console.log("Result: ", error);
       }
-
-      // this.category.info = "alert alert-info text-dark";
-      // this.category.message = "Category Created Successfully!";
     },
     async deleteCategory(categoryId) {
       try {

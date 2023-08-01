@@ -66,7 +66,6 @@ export default {
   methods: {
     handleFileUpload(event) {
       this.selectedFile = event.target.files[0];
-      console.log("file", this.selectedFile);
     },
 
     async fetchCategories() {
@@ -88,7 +87,6 @@ export default {
       fd.append("parent_id", this.category.parent_id);
       fd.append("picture", "rrrrr");
       fd.append("file", this.selectedFile);
-      console.log("Result fd: ", fd);
 
       try {
         const response = await axios.post(

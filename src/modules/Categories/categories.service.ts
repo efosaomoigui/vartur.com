@@ -62,7 +62,6 @@ const getCategoryTree = async () => {
         .children.push(categoriesMap.get(category.id));
     }
   });
-  console.log("", rootCategories);
   return rootCategories;
 };
 

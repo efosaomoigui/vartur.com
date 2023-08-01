@@ -60,6 +60,7 @@ export default {
         name: "",
         picture: "",
         parent_id: "",
+        reloadKey: 0,
       },
     };
   },
@@ -82,7 +83,6 @@ export default {
       fd.append("parent_id", Number(this.category.parent_id));
       fd.append("picture", "rrrrr");
       fd.append("file", this.selectedFile);
-      console.log("Result fd: ", fd);
 
       try {
         const response = await axios.post(

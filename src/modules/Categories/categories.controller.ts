@@ -62,7 +62,6 @@ export async function deleteCategoryHandler(
   reply: FastifyReply
 ) {
   const categoryId = parseInt(request.params.categoryId, 10);
-  console.log("DEl ", categoryId);
 
   try {
     const category = await deleteCategory(categoryId);
