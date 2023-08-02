@@ -4,9 +4,7 @@ import NotFound from "../pages/NotFoundPage.vue";
 
 // Admin pages
 import Overview from "src/pages/Overview.vue";
-import UserProfile from "src/pages/UserProfile.vue";
 import TableList from "src/pages/TableList.vue";
-import Products from "src/pages/Products.vue";
 import Categories from "src/pages/Categories.vue";
 import Typography from "src/pages/Typography.vue";
 import Icons from "src/pages/Icons.vue";
@@ -31,25 +29,11 @@ const routes = [
         component: Overview,
       },
       {
-        path: "user",
-        name: "User",
-        component: UserProfile,
-      },
-      {
-        path: "table-list",
-        name: "Table List",
-        component: Products,
-      },
-      {
         path: "categories",
         name: "Category List",
         component: Categories,
       },
-      {
-        path: "products",
-        name: "Product List",
-        component: Products,
-      },
+
       {
         path: "typography",
         name: "Typography",

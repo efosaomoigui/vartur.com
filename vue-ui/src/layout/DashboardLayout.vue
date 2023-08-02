@@ -10,10 +10,10 @@
         <i class="nc-icon nc-notes"></i>
         <p>Categories</p>
       </sidebar-link>
-      <sidebar-link to="/admin/products">
+      <!-- <sidebar-link to="/admin/products">
         <i class="nc-icon nc-notes"></i>
         <p>Products</p>
-      </sidebar-link>
+      </sidebar-link> -->
 
       <template slot="bottom-links">
         <sidebar-link class="active" to="/admin/upgrade">

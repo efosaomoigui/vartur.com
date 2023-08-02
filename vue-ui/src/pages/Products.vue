@@ -41,7 +41,6 @@
 </template>
 <script>
 import LTable from "src/components/Table.vue";
-import ProductForm from "./UserProfile/ProductForm.vue";
 import Card from "src/components/Cards/Card.vue";
 const tableColumns = ["Id", "Name", "Salary", "Country", "City"];
 const tableData = [
@@ -85,7 +84,6 @@ export default {
   components: {
     LTable,
     Card,
-    ProductForm,
   },
   data() {
     return {

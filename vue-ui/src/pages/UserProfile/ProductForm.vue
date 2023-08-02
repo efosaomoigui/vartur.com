@@ -1,28 +1,28 @@
 <template>
   <card>
-    <form @submit.prevent="addCategoryLink" enctype="multipart/form-data">
+    <form @submit.prevent="addProduct" enctype="multipart/form-data">
       <div class="row">
         <div class="col-md-6">
           <base-input
             type="text"
-            label="Category"
+            label="Product"
             :disabled="false"
             placeholder="ss"
-            v-model="category.name"
+            v-model="product.name"
           >
           </base-input>
         </div>
 
         <div class="col-md-6">
           <div class="form-group">
-            <label for="parentCategory">Parent Category:</label>
-            <select class="form-control" v-model="category.parent_id" required>
+            <label for="Category">Category:</label>
+            <select class="form-control" v-model="product.category_id" required>
               <option
-                v-for="category in dataFromParent"
-                :key="category.id"
-                :value="category.id"
+                v-for="product in dataFromParent"
+                :key="product.id"
+                :value="product.id"
               >
-                {{ category.name }}
+                {{ product.name }}
               </option>
             </select>
           </div>
@@ -30,7 +30,7 @@
 
         <div class="col-md-12">
           <div class="form-group">
-            <label for="categoryImage">Picture: &nbsp;</label>
+            <label for="ProductImage">Picture: &nbsp;</label>
             <input type="file" @change="handleFileUpload" />
           </div>
         </div>
@@ -38,7 +38,7 @@
 
       <div class="text-center">
         <button type="submit" class="btn btn-info btn-fill float-right">
-          Add Parent Category
+          Add Product
         </button>
       </div>
 
@@ -56,10 +56,10 @@ export default {
   },
   data() {
     return {
-      category: {
+      product: {
         name: "",
         picture: "",
-        parent_id: "",
+        category_id: "",
         reloadKey: 0,
       },
     };
@@ -74,29 +74,27 @@ export default {
       this.selectedFile = event.target.files[0];
       console.log("file", this.selectedFile);
     },
-    async addCategoryLink() {
+    async addProduct() {
       const fd = new FormData();
-      this.category.file = this.selectedFile;
+      this.product.file = this.selectedFile;
 
       // Append properties from categoryData to the FormData
-      fd.append("name", this.category.name);
-      fd.append("parent_id", Number(this.category.parent_id));
+      fd.append("name", this.product.name);
+      fd.append("category_id", Number(this.product.category_id));
       fd.append("picture", "rrrrr");
       fd.append("file", this.selectedFile);
 
       try {
         const response = await axios.post(
-          "http://localhost:3000/api/categories/",
+          "http://localhost:3000/api/products/",
           fd
         );
 
-        this.$emit("category-created");
-        this.category.info = "alert alert-info text-dark";
-        this.category.message = "Category Created Successfully!";
-        this.category.name = "";
-        this.category.parent_id = "";
-        this.category.picture = "";
-        this.selectedFile = "";
+        this.$emit("product-created");
+        this.product.info = "alert alert-info text-dark";
+        this.product.message = "Product Created Successfully!";
+        this.product.name = "";
+        this.product.category_id = "";
       } catch (error) {
         console.log("Result: ", error);
       }

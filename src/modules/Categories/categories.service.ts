@@ -20,25 +20,37 @@ export async function getCategories() {
 }
 
 export async function getCategoriesWithProductCount() {
-  const allCategories = await prisma.category.findMany();
+  const allCategories = await prisma.category.findMany({
+    include: {
+      products: true,
+    },
+  });
   const categoriesWithCount = allCategories.map((category) => ({
     ...category,
     productCount: getProductCount(category.id, allCategories),
+    parent: getParentName(category.parent_id, allCategories),
   }));
 
   return categoriesWithCount;
 }
+function getParentName(parentId: number | null, allCategories: any[]) {
+  const category = allCategories.find((c) => c.id === parentId);
+  if (!category) return "--No Parent--";
+  return category.name;
+}
 
-function getProductCount(categoryId: number, categories: any[]): number {
+async function getProductCount(categoryId: number, allCategories: any[]) {
   let count = 0;
-  const children = categories.filter(
-    (category) => category.parent_id === categoryId
-  );
-  count += children.reduce(
-    (acc, category) => acc + getProductCount(category.id, categories),
-    0
-  );
-  count += children.length;
+  const category = allCategories.find((c) => c.id === categoryId);
+  if (!category) return 0;
+
+  count += category.products.length;
+
+  const children = allCategories.filter((c) => c.parent_id === categoryId);
+  for (const child of children) {
+    count += await getProductCount(child.id, allCategories);
+  }
+
   return count;
 }
 
@@ -50,7 +62,7 @@ const getCategoryTree = async () => {
   categories.forEach((category) => {
     categoriesMap.set(category.id, { ...category, children: [] });
   });
-
+  // console.log("MAP: ", categoriesMap);
   const rootCategories: any[] = [];
 
   categories.forEach((category) => {
@@ -62,6 +74,8 @@ const getCategoryTree = async () => {
         .children.push(categoriesMap.get(category.id));
     }
   });
+
+  // console.log("ROOT: ", rootCategories);
   return rootCategories;
 };
 

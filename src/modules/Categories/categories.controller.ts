@@ -25,7 +25,6 @@ export async function createCategoryHandler(
   };
 
   try {
-    console.log("LOC ", request.body.file);
     const file = request.body.file[0];
 
     if (file)
@@ -56,7 +55,6 @@ export async function getCategoriesWithProductCountHandler() {
   return categories;
 }
 
-// Add the route for deleting a category
 export async function deleteCategoryHandler(
   request: FastifyRequest<{ Params: { categoryId: string } }>,
   reply: FastifyReply

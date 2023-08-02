@@ -97,6 +97,7 @@ export default {
         this.$emit("category-created");
         this.category.info = "alert alert-info text-dark";
         this.category.message = "Category Created Successfully!";
+        this.category.name = "";
       } catch (error) {
         console.log("Result: ", error);
       }

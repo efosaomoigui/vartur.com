@@ -30,6 +30,12 @@ const categoriesWithChildrenResponseSchema = z.object({
   children: categoriesResponseSchema,
   ...cateogryGenerated,
 });
+const categoriesWithProductResponseSchema = z.object({
+  ...categoryInput,
+  children: categoriesResponseSchema,
+  ...cateogryGenerated,
+  products: categoriesResponseSchema,
+});
 
 export type createCategoryInput = z.infer<typeof createCategorySchema>;
 

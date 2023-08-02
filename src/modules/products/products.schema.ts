@@ -2,18 +2,19 @@ import { z } from "zod";
 import { buildJsonSchemas } from "fastify-zod";
 
 const productInput = {
-  id: z.number(),
   name: z.string(),
   picture: z.string(),
   category_id: z.number(),
+  file: z.any(),
 };
 
 const productGenerated = {
+  id: z.number(),
   created_at: z.date(),
   updated_at: z.date(),
 };
 
-const createProductSchema = z.object({
+export const createProductSchema = z.object({
   ...productInput,
 });
 
