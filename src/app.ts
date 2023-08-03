@@ -83,7 +83,6 @@ const start = async () => {
   app.register(productRoutes, { prefix: "api/products" });
   app.register(categoriesRoutes, { prefix: "api/categories" });
   
-
   try {
     await app.listen(PORT, "0.0.0.0");
     console.log("Server started on port 3000");

@@ -15,6 +15,12 @@ async function userRoute(server: FastifyInstance) {
   );
 
   server.post("/login", loginHandler);
+
+  server.get("/api/env", (request, reply) => {
+    reply.send({
+      url: process.env.API_URL,
+    });
+  });
 }
 
 export default userRoute;
